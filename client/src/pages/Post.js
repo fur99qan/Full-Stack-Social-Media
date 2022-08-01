@@ -18,7 +18,8 @@ function Post() {
             })
 
 
-    }, [])
+    }, [id])
+
     useEffect(() => {
         axios
             .get(`http://localhost:3001/comments/${id}`)
@@ -26,7 +27,7 @@ function Post() {
                 setComments(response.data)
             })
 
-    }, [commentAdded])
+    }, [id, commentAdded])
 
 
     const addComment = () => {
@@ -34,8 +35,15 @@ function Post() {
             .post('http://localhost:3001/comments', {
                 commentBody: newComment,
                 PostId: id,
-            })
+            },
+                {
+                    headers: {
+                        accessToken: sessionStorage.getItem('accessToken')
+                    }
+                }
+            )
             .then((response) => {
+                if (response.data.error) console.log(response.data.error)
                 setCommentAdded(commentAdded + 1);
                 setNewComment('');
             })

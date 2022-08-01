@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const login = () => {
         const data = { username: username, password: password };
@@ -15,6 +17,8 @@ function Login() {
                 }
                 else {
                     sessionStorage.setItem("accessToken", response.data);
+                    console.log("You logged in Successfully")
+                    navigate('/')
                 }
 
             });
@@ -23,6 +27,7 @@ function Login() {
         <div className="loginContainer">
             <label>Username:</label>
             <input
+                autoComplete="on"
                 type="text"
                 onChange={(event) => {
                     setUsername(event.target.value);
@@ -30,6 +35,7 @@ function Login() {
             />
             <label>Password:</label>
             <input
+                autoComplete="on"
                 type="password"
                 onChange={(event) => {
                     setPassword(event.target.value);
