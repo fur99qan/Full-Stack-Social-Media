@@ -38,7 +38,7 @@ function Post() {
             },
                 {
                     headers: {
-                        accessToken: sessionStorage.getItem('accessToken')
+                        accessToken: localStorage.getItem('accessToken')
                     }
                 }
             )
@@ -77,8 +77,12 @@ function Post() {
                 <div className='listOfComments'>
                     {comments.map((comment, key) => {
                         return (
-                            <div key={key} className='comment'>{comment.commentBody}</div>
-                        )
+                            <div key={key} className="comment">
+                                {comment.commentBody}
+                                <br />
+                                <label> Username: {comment.username}</label>
+                            </div>
+                        );
                     })}
                 </div>
             </div>

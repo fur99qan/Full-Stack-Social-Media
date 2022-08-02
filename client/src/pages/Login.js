@@ -16,7 +16,7 @@ function Login() {
                     alert(response.data.error);
                 }
                 else {
-                    sessionStorage.setItem("accessToken", response.data);
+                    localStorage.setItem("accessToken", response.data);
                     console.log("You logged in Successfully")
                     navigate('/')
                 }
