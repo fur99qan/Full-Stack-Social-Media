@@ -13,6 +13,38 @@ function Home() {
             })
     }, [])
 
+    const likeAPost = (postId) => {
+        axios
+            .post('http://localhost:3001/likes', {
+                PostId: postId,
+            },
+                {
+                    headers: {
+                        accessToken: localStorage.getItem('accessToken')
+                    }
+                }
+            )
+            .then((response) => {
+                console.log(response);
+                setListOfPosts(listOfPosts.map((post) => {
+                    console.log(post.Likes)
+                    if (post.id === postId) {
+                        if (response.data.liked === true) {
+                            return ({ ...post, Likes: [...post.Likes, 'like added'] })
+                        }
+                        else {
+                            const likeArray = post.Likes
+                            likeArray.pop()
+                            return ({ ...post, Likes: likeArray })
+                        }
+
+                    }
+
+                }))
+            })
+
+    }
+
     const navigate = useNavigate()
 
     return (
@@ -23,12 +55,27 @@ function Home() {
                         <div
                             key={key}
                             className='post'
-                            onClick={() => {
-                                navigate(`post/${value.id}`)
-                            }}>
-                            <div className='title'>{value.title}</div>
-                            <div className='body'>{value.postText}</div>
-                            <div className='footer'>{value.username}</div>
+                        >
+                            <div
+                                className='title'
+                                onClick={() => {
+                                    navigate(`post/${value.id}`)
+                                }}
+                            >
+                                {value.title}
+                            </div>
+                            <div
+                                className='body'
+                                onClick={() => {
+                                    navigate(`post/${value.id}`)
+                                }}
+                            >
+                                {value.postText}
+                            </div>
+                            <div className='footer'>{value.username}
+                                <button onClick={() => { likeAPost(value.id) }}>Like</button>
+                                <label>{value.Likes.length}</label>
+                            </div>
                         </div>
                     )
                 })
