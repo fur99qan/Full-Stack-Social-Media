@@ -12,7 +12,13 @@ import axios from 'axios';
 
 function App() {
 
-  const [authState, setAuthState] = useState(false)
+  const [authState, setAuthState] = useState(
+    {
+      username: "",
+      id: 0,
+      status: false,
+    }
+  );
   useEffect(() => {
     axios.get('http://localhost:3001/auth/validate-token', {
       headers: {
@@ -20,14 +26,32 @@ function App() {
       }
     })
       .then((response) => {
+        console.log(response)
         if (response.data.error) {
-          setAuthState(false)
+          setAuthState({ ...authState, status: false })
         }
         else {
-          setAuthState(true)
+          setAuthState(
+            {
+              username: response.data.username,
+              id: response.data.id,
+              status: true,
+            }
+          )
         }
       })
-  }, [])
+  }, []);
+
+  const Logout = () => {
+    localStorage.removeItem('accessToken')
+    setAuthState(
+      {
+        username: "",
+        id: "",
+        status: false
+      }
+    )
+  }
 
   return (
     <div className='App'>
@@ -37,12 +61,22 @@ function App() {
             <Link to='/'>Home</Link>
             <Link to='/createpost'>Create a Post</Link>
             {
-              !authState && (
-                <>
-                  <Link to='/login'>Login</Link>
-                  <Link to='/registration'>Register</Link>
-                </>
-              )}
+              !authState.status ?
+                (
+                  <>
+                    <Link to='/login'>Login</Link>
+                    <Link to='/registration'>Register</Link>
+                  </>
+                )
+                :
+                (
+                  <>
+                    <button onClick={Logout}>Logout</button>
+                    <h2>{authState.username}</h2>
+                  </>
+                )
+            }
+
           </div>
           <Routes>
             <Route path='/' element={<Home />} />

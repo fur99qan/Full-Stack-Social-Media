@@ -30,12 +30,12 @@ router.post("/login", async (req, res) => {
             if (!match) res.json({ error: "wrong username password combination" })
 
             const accessToken = sign({ username: user.username, id: user.id }, "accesstokenencryptionkey")
-            res.json(accessToken)
+            res.json({ token: accessToken, username: username, id: user.id })
         })
 })
 
 router.get("/validate-token", validateToken, (req, res) => {
-    res.json(req.user)
+    res.json(req.user);
 })
 
 module.exports = router;

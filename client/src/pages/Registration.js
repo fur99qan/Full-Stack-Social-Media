@@ -1,6 +1,7 @@
 import React from 'react';
 import '../App.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup';
 import axios from 'axios';
 
@@ -8,6 +9,7 @@ import axios from 'axios';
 
 function Registration() {
 
+    const navigate = useNavigate();
 
     const initialValues = {
         username: "",
@@ -24,6 +26,7 @@ function Registration() {
             .post('http://localhost:3001/auth', data)
             .then(() => {
                 console.log(data)
+                navigate('/login')
             })
     }
 
