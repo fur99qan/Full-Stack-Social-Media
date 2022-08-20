@@ -6,6 +6,7 @@ import CreatePost from './pages/CreatePost';
 import Post from './pages/Post';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
+import PageNotFound from './pages/PageNotFound';
 import { AuthContext } from './helpers/AuthContext';
 import axios from 'axios';
 
@@ -26,7 +27,6 @@ function App() {
       }
     })
       .then((response) => {
-        console.log(response)
         if (response.data.error) {
           setAuthState({ ...authState, status: false })
         }
@@ -59,14 +59,18 @@ function App() {
         <BrowserRouter>
           <div className="navbar">
             <div className="links">
-              <Link to="/"> Home Page</Link>
-              <Link to="/createpost"> Create A Post</Link>
-              {!authState.status && (
+              {!authState.status ? (
                 <>
                   <Link to="/login"> Login</Link>
                   <Link to="/registration"> Registration</Link>
                 </>
-              )}
+              ) : (
+                <>
+                  <Link to="/"> Home Page</Link>
+                  <Link to="/createpost"> Create A Post</Link>
+                </>
+              )
+              }
             </div>
             <div className="loggedInContainer">
               <h1>{authState.username} </h1>
@@ -74,11 +78,13 @@ function App() {
             </div>
           </div>
           <Routes>
+            <Route path='*' element={<PageNotFound />} />
             <Route path='/' element={<Home />} />
             <Route path='/createpost' element={<CreatePost />} />
             <Route path='/post/:id' element={<Post />} />
             <Route path='/login' element={<Login />} />
             <Route path='/registration' element={<Registration />} />
+
           </Routes>
         </BrowserRouter>
       </AuthContext.Provider >
