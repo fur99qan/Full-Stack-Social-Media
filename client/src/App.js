@@ -10,6 +10,7 @@ import PageNotFound from './pages/PageNotFound';
 import { AuthContext } from './helpers/AuthContext';
 import axios from 'axios';
 import Profile from './pages/Profile';
+import ChangePassword from './pages/ChangePassword';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Chip from '@mui/material/Chip';
 
@@ -88,6 +89,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/registration' element={<Registration />} />
             <Route path='/profile/:id' element={<Profile />} />
+            <Route path='changepassword' element={<ChangePassword />} />
 
           </Routes>
         </BrowserRouter>

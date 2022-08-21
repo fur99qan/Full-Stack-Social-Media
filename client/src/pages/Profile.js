@@ -1,8 +1,8 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../helpers/AuthContext'
 
 function Profile() {
 
@@ -10,7 +10,7 @@ function Profile() {
     const [listOfPosts, setListOfPosts] = useState([]);
     const [likedPosts, setLikedPosts] = useState([]);
     const navigate = useNavigate()
-
+    const { authState } = useContext(AuthContext);
     const { id } = useParams()
 
     useEffect(() => {
@@ -69,7 +69,10 @@ function Profile() {
 
     return (
         <div className='profilePageContainer'>
-            <div className='basiInfo'><h1>Username:{username}</h1></div>
+            <div className='basicInfo'>
+                <h1>Username:{username}</h1>
+                {authState.username === username && <button onClick={() => { navigate('/changepassword') }}>Change My Password</button>}
+            </div>
             <div className='listOfPosts'>
                 {listOfPosts.map((value, key) => {
                     return (
