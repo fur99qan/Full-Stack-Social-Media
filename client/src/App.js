@@ -10,6 +10,8 @@ import PageNotFound from './pages/PageNotFound';
 import { AuthContext } from './helpers/AuthContext';
 import axios from 'axios';
 import Profile from './pages/Profile';
+import LogoutIcon from '@mui/icons-material/Logout';
+import Chip from '@mui/material/Chip';
 
 
 function App() {
@@ -75,7 +77,7 @@ function App() {
             </div>
             <div className="loggedInContainer">
               <h1>{authState.username} </h1>
-              {authState.status && <button onClick={logout}> Logout</button>}
+              {authState.status && <Chip onClick={logout} icon={<LogoutIcon />} label="Logout" />}
             </div>
           </div>
           <Routes>

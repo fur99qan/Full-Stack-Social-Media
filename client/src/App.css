@@ -64,7 +64,7 @@ body {
   text-decoration: none;
 }
 .link:hover {
-   color: #00F
+   color: rgb(74, 74, 114)
 }
 
 .footer .buttons {
@@ -133,6 +133,9 @@ body {
 
 span {
   color: red;
+}
+.css-6od3lo-MuiChip-label{
+  color:#FFF
 }
 
 /* NAVBAR */
