@@ -58,6 +58,15 @@ body {
 .footer .username {
   flex: 50%;
 }
+
+.link {
+  color: #FFF;
+  text-decoration: none;
+}
+.link:hover {
+   color: #00F
+}
+
 .footer .buttons {
   flex: 50%;
   display: flex;

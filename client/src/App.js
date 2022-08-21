@@ -9,6 +9,7 @@ import Registration from './pages/Registration';
 import PageNotFound from './pages/PageNotFound';
 import { AuthContext } from './helpers/AuthContext';
 import axios from 'axios';
+import Profile from './pages/Profile';
 
 
 function App() {
@@ -84,6 +85,7 @@ function App() {
             <Route path='/post/:id' element={<Post />} />
             <Route path='/login' element={<Login />} />
             <Route path='/registration' element={<Registration />} />
+            <Route path='/profile/:id' element={<Profile />} />
 
           </Routes>
         </BrowserRouter>
