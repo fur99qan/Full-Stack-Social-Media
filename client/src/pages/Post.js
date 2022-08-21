@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../helpers/AuthContext';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Chip } from '@mui/material';
 
 function Post() {
 
@@ -19,8 +21,6 @@ function Post() {
             .then((response) => {
                 setPostObject(response.data)
             })
-
-
     }, [id])
 
     useEffect(() => {
@@ -29,9 +29,7 @@ function Post() {
             .then((response) => {
                 setComments(response.data)
             })
-
     }, [id, commentAdded])
-
 
     const addComment = () => {
         axios
@@ -60,7 +58,7 @@ function Post() {
             .then(() => {
                 setComments(
                     comments.filter((val) => {
-                        return val.id != id;
+                        return val.id !== id;
                     })
                 );
             });
@@ -75,21 +73,67 @@ function Post() {
                 console.log(response.data);
                 navigate('/');
             });
+    }
+
+    const editPost = (option) => {
+        if (option === 'title') {
+            let newTitle = prompt("Enter New Title:");
+            axios.put('http://localhost:3001/posts/title', { newTitle: newTitle, id: id },
+                {
+                    headers: { accessToken: localStorage.getItem("accessToken") },
+                }
+            ).then((response) => {
+                console.log(response.data)
+                setPostObject({ ...postObject, title: newTitle })
+            })
+        } else {
+            let newText = prompt("Enter New Body:")
+            axios.put('http://localhost:3001/posts/postText', { newText: newText, id: id },
+                {
+                    headers: { accessToken: localStorage.getItem("accessToken") },
+                }
+            ).then((response) => {
+                console.log(response.data)
+                setPostObject({ ...postObject, postText: newText })
+            })
+        }
 
     }
 
     return (
-
         <div className="postPage">
             <div className="leftSide">
                 <div className="post" id="individual">
-                    <div className="title"> {postObject.title} </div>
-                    <div className="body">{postObject.postText}</div>
+                    <div
+                        className="title"
+                        onClick={() => {
+                            if (authState.username === postObject.username) {
+                                editPost("title");
+                            }
+                        }}
+                    >
+                        {postObject.title}
+                    </div>
+                    <div
+                        className="body"
+                        onClick={() => {
+                            if (authState.username === postObject.username) {
+                                editPost("body");
+                            }
+                        }}
+                    >
+                        {postObject.postText}
+                    </div>
                     <div className="footer">
-                        {postObject.username}
-                        {authState.username === postObject.username && <button onClick={() => {
-                            deletePost(postObject.id)
-                        }}>Delete Post</button>}
+                        <Link className="link" to={`/profile/${postObject.UserId}`}>{postObject.username}</Link>
+
+                        <br />
+                        <div className='buttons'>
+                            {authState.username === postObject.username && <Chip color='error' icon={<DeleteIcon />} label="Delete Post" onClick={() => {
+                                deletePost(postObject.id)
+                            }}
+                            />}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -77,7 +77,7 @@ function App() {
             </div>
             <div className="loggedInContainer">
               <h1>{authState.username} </h1>
-              {authState.status && <Chip onClick={logout} icon={<LogoutIcon />} label="Logout" />}
+              {authState.status && <Chip onClick={logout} color="error" icon={<LogoutIcon />} label="Logout" />}
             </div>
           </div>
           <Routes>

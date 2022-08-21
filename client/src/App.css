@@ -249,6 +249,10 @@ button {
   margin-top: 20px;
 }
 
+.listOfComments .comment label {
+  color: blue;
+}
+
 #individual {
   height: 500px;
   width: 600px;
@@ -258,6 +262,7 @@ button {
 #individual .footer {
   font-size: 30px;
 }
+
 
 #individual .body {
   font-size: 25px;
